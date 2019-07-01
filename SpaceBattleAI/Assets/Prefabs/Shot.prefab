@@ -142,7 +142,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.001
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 50
   range: 200
+  damage: 10
   p1: {fileID: 6359134324118058311}
   p2: {fileID: 6359134324798580382}
 --- !u!1 &6359134324798580383

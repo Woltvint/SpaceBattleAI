@@ -6,8 +6,10 @@ public class Shot : MonoBehaviour
 {
     public float velocity;
     public float range;
+    public float damage;
     public Transform p1;
     public Transform p2;
+
 
     private Vector3 start;
     private Rigidbody2D rb;
@@ -26,5 +28,14 @@ public class Shot : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Fighter_Health>().damage(damage);
+        }
+        Destroy(gameObject);
     }
 }

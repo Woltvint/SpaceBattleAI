@@ -6,8 +6,10 @@ public class Fighter_Controller : MonoBehaviour
 {
     public float speed;
     public float rotSpeed;
-    public int speedMult;
-    public int rotMult;
+    public float inertForce;
+    public float speedMult;
+    public float rotMult;
+    public Transform dirPoint;
 
     private Rigidbody2D rb;
 
@@ -18,16 +20,18 @@ public class Fighter_Controller : MonoBehaviour
 
     void FixedUpdate()
     {
+        rb.AddForce((-rb.velocity.normalized) * inertForce);
+        
         rb.AddRelativeForce(new Vector2(speed * speedMult, 0));
         rb.AddTorque(rotSpeed * rotMult);
     }
 
-    public void SetSpeed(int d)
+    public void SetSpeed(float d)
     {
         speedMult = d;
     }
 
-    public void setRotation(int d)
+    public void setRotation(float d)
     {
         rotMult = d;
     }

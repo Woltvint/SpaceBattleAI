@@ -23,8 +23,6 @@ public class Fighter_Weapons : MonoBehaviour
         {
             time--;
         }
-
-        fire();
     }
 
 
