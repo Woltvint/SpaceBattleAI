@@ -14,13 +14,13 @@ public class Fighter_Brain : MonoBehaviour
 
     int maxLayers = 10;
     int maxNeurons = 20;
-    int outputNeurons = 7;
+    int outputNeurons = 8;
 
 
     private void Start()
     {
         net = new NeuralNet();
-        net.inicNet(Random.Range(1, maxLayers),Random.Range(1, maxNeurons), outputNeurons);
+        net.inicNet(Random.Range(1, maxLayers), Random.Range(1, maxNeurons), outputNeurons);
 
         controler = gameObject.GetComponent<Fighter_Controller>();
         weapons = gameObject.GetComponent<Fighter_Weapons>();
@@ -44,36 +44,46 @@ public class Fighter_Brain : MonoBehaviour
                 }
                 else
                 {
-                    targets[i] = targets[targets.Length];
+                    targets[i] = targets[targets.Length - 1];
                 }
             }
         }
 
         GameObject target = GetClosestEnemy(targets);
 
+        //inputs
+        float distToEnemy = Vector3.Distance(transform.position, target.transform.position);
+        float angleToEnemy = angleToVector(transform.position, controler.dirPoint.position, target.transform.position);
 
-        Vector3 dir = target.transform.position - transform.position;
+        float distToSpawn = Vector3.Distance(start, transform.position);
+        float angleToSpawn = angleToVector(transform.position, controler.dirPoint.position, start);
 
-        float ang = Vector3.Angle(Vector3.zero,target.transform.position) - Vector3.Angle(Vector3.zero, transform.position);
+        float velocity = Mathf.Abs(controler.rb.velocity.x) + Mathf.Abs(controler.rb.velocity.y);
 
-        Debug.Log("me:" + transform.position + " " +  (180 - Vector3.Angle(transform.position - controler.dirPoint.position,dir)));
+        float power = map(weapons.power, 0, weapons.maxPower, 0, 1);
+        float hp = map(health.health, 0, health.maxHealth, 0, 1);
+        float shield = map(health.shield, 0, health.maxShield, 0, 1);
 
-        /*
 
-        float[] input = {0,1,0};
+        float[] input = { distToEnemy, angleToEnemy, distToSpawn, angleToSpawn, velocity, power, hp, shield };
 
+
+        //thinking
         float[] output = net.calcNet(input);
 
-        controler.SetSpeed(output[0]+ output[1]+ output[2]);
+
+        //using the output to control the ship
+        controler.SetSpeed(((output[0] + 1) / 2) + ((output[1] + 1) / 2) + ((output[2] + 1) / 2));
         controler.setRotation(output[3] + output[4] + output[5]);
+        controler.setInert((output[6] + 1) / 2);
 
         //fire ?
-        if (output[6] > 0.5f)
+        if (output[7] > 0)
         {
             //yes
             weapons.fire();
         }
-        */
+
     }
 
 
@@ -94,20 +104,21 @@ public class Fighter_Brain : MonoBehaviour
         return tMin;
     }
 
-    float SignedAngleBetween(Vector3 a, Vector3 b, Vector3 n)
+
+    float angleToVector(Vector3 from1, Vector3 from2, Vector3 to)
     {
-        // angle in [0,180]
-        float angle = Vector3.Angle(a, b);
-        float sign = Mathf.Sign(Vector3.Dot(n, Vector3.Cross(a, b)));
+        Vector3 dir = to - from1;
+        Vector3 mydir = from1 - from2;
 
-        // angle in [-179,180]
-        float signed_angle = angle * sign;
+        float ang = (180 - Vector3.Angle(mydir, dir));
 
-        // angle in [0,360] (not used but included here for completeness)
-        //float angle360 =  (signed_angle + 180) % 360;
+        ang *= Mathf.Sign(Vector3.Dot(Vector3.forward, Vector3.Cross(mydir, dir)));
 
-        return signed_angle;
+        return ang;
     }
 
-
+    float map(float value, float from1, float to1, float from2, float to2)
+    {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+    }
 }

@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5597328812736474542}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: -0.75, z: 0}
+  m_LocalPosition: {x: 4.5, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5597328812919283961}
@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 5597328812919283957}
   - component: {fileID: 5597328812919283960}
   - component: {fileID: 3547183194883286599}
+  - component: {fileID: 3464642614112110321}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Player
@@ -367,7 +368,9 @@ MonoBehaviour:
   inertForce: 1
   speedMult: 0
   rotMult: 0
+  inertMult: 0
   dirPoint: {fileID: 4745602759119519737}
+  rb: {fileID: 0}
 --- !u!114 &5597328812919283960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +388,7 @@ MonoBehaviour:
   shot: {fileID: 6359134324128963417, guid: 4a59008a3e2f2fd4f87a3e55040b29d2, type: 3}
   time: 0
   delay: 5
+  maxPower: 100
   firePoint1: {fileID: 5597328812736474513}
   firePoint2: {fileID: 5597328812940286225}
 --- !u!114 &3547183194883286599
@@ -404,6 +408,18 @@ MonoBehaviour:
   shieldRecharge: 0.01
   health: 0
   shield: 0
+--- !u!114 &3464642614112110321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5597328812919283954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4584fd4d994ff2e468f49e250b6d8c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5597328812940286254
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +444,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5597328812940286254}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 0.75, z: 0}
+  m_LocalPosition: {x: 4.5, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5597328812919283961}

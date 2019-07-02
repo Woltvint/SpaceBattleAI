@@ -9,13 +9,14 @@ public class Fighter_Weapons : MonoBehaviour
     public GameObject shot;
     public float time;
     public float delay;
+    public float maxPower;
 
     public Transform firePoint1;
     public Transform firePoint2;
 
     private void FixedUpdate()
     {
-        if (power < 100)
+        if (power < maxPower)
         {
             power += 0.5f;
         }
